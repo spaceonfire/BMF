@@ -1,0 +1,20 @@
+{
+  "name": "spaceonfire/bitrix-module-framework",
+  "description": "Фреймворк, упрощающий процесс разработки модулей для 1С-Битрикс",
+  "keywords": ["tools", "bitrix", "bitrix-modules"],
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Constantine Karnaukhov",
+      "email": "genteelknight@gmail.com"
+    }
+  ],
+  "require": {
+    "php": ">=7.1"
+  },
+  "autoload": {
+    "psr-4": {
+      "spaceonfire\\BMF\\": "src/"
+    }
+  }
+}
