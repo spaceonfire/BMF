@@ -25,12 +25,12 @@ class Manager {
 	}
 
 	public function addTab($key, array $tab): void {
-		$this->optionTabs[$key] = array_merge($tab, ['DIV' => $key]);
+		$this->optionTabs[] = array_merge($tab, ['DIV' => $key]);
 	}
 
 	public function addTabs(array $tabs): void {
 		foreach ($tabs as $key => $tab) {
-			$this->addOption($key, $tab);
+			$this->addTab($key, $tab);
 		}
 	}
 

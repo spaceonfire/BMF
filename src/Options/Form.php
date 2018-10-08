@@ -51,7 +51,7 @@ class Form {
 			} else {
 				try {
 					// Save options
-					foreach ($this->options as $id => $opt) {
+					foreach ($this->options->getFields() as $id => $opt) {
 						switch ($opt['type']) {
 							case 'checkbox':
 								$value = $request->getPost($id) ? true : false;
@@ -215,7 +215,7 @@ class Form {
 				type="submit"
 				name="restore"
 				title="<?=Loc::getMessage('MAIN_HINT_RESTORE_DEFAULTS') ?>"
-				onclick="return confirm('<?= AddSlashes(GetMessage('MAIN_HINT_RESTORE_DEFAULTS_WARNING')) ?>')"
+				onclick="return confirm('<?= addslashes(GetMessage('MAIN_HINT_RESTORE_DEFAULTS_WARNING')) ?>')"
 				value="<?=Loc::getMessage('MAIN_RESTORE_DEFAULTS') ?>"
 			/>
 			<?php
