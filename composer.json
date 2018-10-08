@@ -1,5 +1,5 @@
 {
-  "name": "spaceonfire/bitrix-module-framework",
+  "name": "spaceonfire/BMF",
   "description": "Фреймворк, упрощающий процесс разработки модулей для 1С-Битрикс",
   "keywords": ["tools", "bitrix", "bitrix-modules"],
   "license": "MIT",
