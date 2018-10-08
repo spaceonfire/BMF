@@ -10,6 +10,7 @@ class Module {
 	private $MODULE_VERSION_DATE;
 
 	public $options;
+	public $logger;
 
 	/**
 	 * spaceonfire\BMF\Module constructor.
@@ -26,6 +27,7 @@ class Module {
 		$this->MODULE_VERSION_DATE = $options['MODULE_VERSION_DATE'];
 
 		$this->options = new Options\Manager($this->MODULE_ID);
+		$this->logger = new Logger($this->MODULE_ID);
 	}
 
 	/**
