@@ -145,7 +145,7 @@ class Form {
 											<? foreach ($opt['values'] as $value => $display) { ?>
 												<option
 													value="<?=$value?>"
-													<?=Option::get(ADMIN_MODULE_NAME, $opt_name, $opt['default']) === $value ? 'selected="selected"' : ''?>
+													<?=Option::get(ADMIN_MODULE_NAME, $opt_name, $opt['default']) == $value ? 'selected="selected"' : ''?>
 												><?=$display?></option>
 											<? } ?>
 										</select>
@@ -173,7 +173,7 @@ class Form {
 											id="<?=$opt_name?>"
 											<?= $opt['required'] ? 'required="required"' : ''?>
 											<?= $opt['placeholder'] ? 'placeholder="' . htmlspecialchars($opt['placeholder']) . '"' : ''?>
-										><?=htmlspecialchars(Option::get(ADMIN_MODULE_NAME, $opt_name) ?: $opt['default']);?></textarea>
+										><?=htmlspecialchars(Option::get(ADMIN_MODULE_NAME, $opt_name, $opt['default']));?></textarea>
 										<?
 										break;
 
