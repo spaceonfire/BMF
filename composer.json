@@ -16,5 +16,9 @@
     "psr-4": {
       "spaceonfire\\BMF\\": "src/"
     }
-  }
+  },
+  "bin": [
+    "bin/bundle",
+    "bin/bundle_mp"
+  ]
 }

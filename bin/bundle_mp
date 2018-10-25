@@ -1,0 +1,17 @@
+#!/bin/sh
+set -e
+
+# Clean last build
+rm -rf .last_version .last_version.tar.gz
+mkdir -p .last_version
+cp -r ./* .last_version
+chown -R 1000.1000 .last_version
+
+# Convert encoding for lang files
+find ./.last_version -name "*.php" -path "*lang*" -exec iconv -f utf-8 -t windows-1251 {} -o {} \;
+
+# Create bundle
+tar -czf .last_version.tar.gz .last_version -X bxignore
+
+# Little clean up
+rm -rf .last_version
