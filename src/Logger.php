@@ -7,6 +7,7 @@ use CEventLog;
 class Logger {
 	private $moduleId = null;
 	private $auditTypeId = null;
+	private $itemId = null;
 
 	public function __construct($moduleId) {
 		$this->moduleId = $moduleId;
@@ -29,6 +30,22 @@ class Logger {
 	}
 
 	/**
+	 * Get predefined item id
+	 * @return string | null
+	 */
+	public function getItemId() {
+		return $this->itemId;
+	}
+
+	/**
+	 * Set item id
+	 * @param string $itemId
+	 */
+	public function setItemId($itemId): void {
+		$this->itemId = $itemId;
+	}
+
+	/**
 	 * Add message to event log
 	 * @param string | array $message log message string or array with fields to pass into CEventLog::Add
 	 */
@@ -36,7 +53,7 @@ class Logger {
 		$defaults = [
 			'SEVERITY' => 'INFO',
 			'AUDIT_TYPE_ID' => $this->auditTypeId,
-			'ITEM_ID' => '',
+			'ITEM_ID' => $this->itemId ?: '',
 		];
 
 		$message = $this->logMessToArray($message);
