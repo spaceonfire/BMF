@@ -8,14 +8,19 @@ cp -r ./* .last_version
 chown -R 1000.1000 .last_version
 
 # Convert encoding for lang files
-find ./.last_version -name "*.php" -path "*lang*" -exec iconv -f utf-8 -t windows-1251 {} -o {} \;
+find ./.last_version -name "*.php" -path "*lang*" | while read i;
+do
+	echo $i
+	iconv -f utf-8 -t windows-1251 "$i" > tmp; \
+	mv tmp "$i";
+done
 
 if [ -e .bmfignore ]; then
 	ignore="-X .bmfignore"
 fi
 
 # Create bundle
-tar -czf .last_version.tar.gz .last_version $ignore
+tar $ignore -czf .last_version.tar.gz .last_version
 
 # Little clean up
 rm -rf .last_version
