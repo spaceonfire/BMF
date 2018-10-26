@@ -50,7 +50,7 @@ class Module {
 	 * Set module version
 	 * @param string $MODULE_VERSION
 	 */
-	public function setVersion($MODULE_VERSION): void {
+	public function setVersion($MODULE_VERSION) {
 		$this->MODULE_VERSION = $MODULE_VERSION;
 	}
 
@@ -66,11 +66,11 @@ class Module {
 	 * Set module version date
 	 * @param string $MODULE_VERSION_DATE
 	 */
-	public function setVersionDate($MODULE_VERSION_DATE): void {
+	public function setVersionDate($MODULE_VERSION_DATE) {
 		$this->MODULE_VERSION_DATE = $MODULE_VERSION_DATE;
 	}
 
-	public function showOptionsForm(): void {
+	public function showOptionsForm() {
 		$form = new Options\Form($this->options);
 		$form->handleRequest();
 		$form->write();

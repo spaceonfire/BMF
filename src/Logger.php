@@ -25,7 +25,7 @@ class Logger {
 	 * Set custom audit type id
 	 * @param string $auditTypeId
 	 */
-	public function setAuditTypeId($auditTypeId): void {
+	public function setAuditTypeId($auditTypeId) {
 		$this->auditTypeId = $auditTypeId;
 	}
 
@@ -41,7 +41,7 @@ class Logger {
 	 * Set item id
 	 * @param string $itemId
 	 */
-	public function setItemId($itemId): void {
+	public function setItemId($itemId) {
 		$this->itemId = $itemId;
 	}
 
@@ -49,7 +49,7 @@ class Logger {
 	 * Add message to event log
 	 * @param string | array $message log message string or array with fields to pass into CEventLog::Add
 	 */
-	public function log($message): void {
+	public function log($message) {
 		$defaults = [
 			'SEVERITY' => 'INFO',
 			'AUDIT_TYPE_ID' => $this->auditTypeId,
@@ -61,30 +61,30 @@ class Logger {
 		CEventLog::Add(array_merge($defaults, $message, ['MODULE_ID' => $this->moduleId]));
 	}
 
-	public function info($message): void {
+	public function info($message) {
 		$this->log($message);
 	}
 
-	public function debug($message): void {
+	public function debug($message) {
 		$this->log([
 			'SEVERITY' => 'DEBUG',
 			'DESCRIPTION' => $message,
 		]);
 	}
 
-	public function warning($message): void {
+	public function warning($message) {
 		$message = $this->logMessToArray($message);
 
 		$this->log(array_merge(['SEVERITY' => 'WARNING'], $message));
 	}
 
-	public function error($message): void {
+	public function error($message) {
 		$message = $this->logMessToArray($message);
 
 		$this->log(array_merge(['SEVERITY' => 'ERROR'], $message));
 	}
 
-	public function security($message): void {
+	public function security($message) {
 		$message = $this->logMessToArray($message);
 
 		$this->log(array_merge(['SEVERITY' => 'SECURITY'], $message));

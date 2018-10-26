@@ -14,27 +14,27 @@ class Manager {
 		$this->moduleId = $moduleId;
 	}
 
-	public function addOption($key, array $option): void {
+	public function addOption($key, array $option) {
 		$this->optionFields[$key] = $option;
 	}
 
-	public function addOptions(array $options): void {
+	public function addOptions(array $options) {
 		foreach ($options as $key => $option) {
 			$this->addOption($key, $option);
 		}
 	}
 
-	public function addTab($key, array $tab): void {
+	public function addTab($key, array $tab) {
 		$this->optionTabs[] = array_merge($tab, ['DIV' => $key]);
 	}
 
-	public function addTabs(array $tabs): void {
+	public function addTabs(array $tabs) {
 		foreach ($tabs as $key => $tab) {
 			$this->addTab($key, $tab);
 		}
 	}
 
-	private function loadOptionValues(): void {
+	private function loadOptionValues() {
 		$this->optionValues = array_merge(
 			Option::getDefaults($this->moduleId),
 			Option::getForModule($this->moduleId)
