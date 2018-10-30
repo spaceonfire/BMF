@@ -9,4 +9,4 @@ if [ -e .bmfignore ]; then
 	ignore="-X .bmfignore"
 fi
 
-tar -czf $name ./* $ignore
+tar $ignore -czf $name ./*
