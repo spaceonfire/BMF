@@ -19,15 +19,17 @@ class Form {
 
 	private $tabControl = null;
 	private $context = null;
+	private $formId = null;
 
-	public function __construct($options) {
+	public function __construct($options, $formId) {
 		global $USER, $APPLICATION;
 		if (!$USER->isAdmin()) {
-			$APPLICATION->authForm('Nope');
+			$APPLICATION->authForm('Access denied.');
 		}
 
 		$this->options = $options;
 		$this->context = Application::getInstance()->getContext();
+		$this->formId = $formId ?: 'module_settings_form';
 
 		defined('ADMIN_MODULE_NAME') or define('ADMIN_MODULE_NAME', $this->options->getModuleId());
 	}
@@ -99,20 +101,28 @@ class Form {
 
 		$this->tabControl->begin();
 		?>
-		<form method="post" action="<?=sprintf('%s?mid=%s&lang=%s', $this->getRequest()->getRequestedPage(), urlencode($mid), LANGUAGE_ID)?>">
+		<form method="post" action="<?=sprintf('%s?mid=%s&lang=%s', $this->getRequest()->getRequestedPage(), urlencode($mid), LANGUAGE_ID)?>" name="<?=$this->formId?>" id="<?=$this->formId?>">
 			<?php
 			echo bitrix_sessid_post();
 			foreach ($this->tabControl->tabs as $tab) {
 				$this->tabControl->beginNextTab();
 				$filteredOpts = array_filter($fields, function ($opt) use ($tab) { return $opt['tab'] === $tab['DIV']; });
 				foreach ($filteredOpts as $opt_name=>$opt) { ?>
-				<tr>
+				<tr id="<?=$opt_name?>_row">
 					<?
 					switch ($opt['type']) {
 						case 'html':
-							?>
-							<td colspan="2">
+							if (strlen($opt['label'])) {
+								?>
+								<td width="30%" style="vertical-align: top; line-height: 25px;">
+									<label for="<?=$opt_name?>"><?=$opt['label'] . ($opt['required'] ? ' *' : '')?>:</label>
+								<td width="70%">
 								<?
+							} else {
+								?>
+								<td colspan="2">
+								<?
+							}
 								if ($opt['html']) {
 									echo $opt['html'];
 								} else if (file_exists($opt['path'])) {
@@ -182,6 +192,7 @@ class Form {
 										?>
 										<input
 											type="<?=$opt['type']?>"
+											size="<?=$opt['size'] ?: '50'?>"
 											name="<?=$opt_name?>"
 											id="<?=$opt_name?>"
 											value="<?=htmlspecialchars(Option::get(ADMIN_MODULE_NAME, $opt_name));?>"

@@ -8,6 +8,7 @@ class Module {
 	private $MODULE_ID;
 	private $MODULE_VERSION;
 	private $MODULE_VERSION_DATE;
+	private $ADMIN_FORM_ID;
 
 	public $options;
 	public $logger;
@@ -25,6 +26,7 @@ class Module {
 		$this->MODULE_ID = $options['MODULE_ID'];
 		$this->MODULE_VERSION = $options['MODULE_VERSION'];
 		$this->MODULE_VERSION_DATE = $options['MODULE_VERSION_DATE'];
+		$this->ADMIN_FORM_ID = $options['ADMIN_FORM_ID'];
 
 		$this->options = new Options\Manager($this->MODULE_ID);
 		$this->logger = new Logger($this->MODULE_ID);
@@ -71,7 +73,7 @@ class Module {
 	}
 
 	public function showOptionsForm() {
-		$form = new Options\Form($this->options);
+		$form = new Options\Form($this->options, $this->ADMIN_FORM_ID);
 		$form->handleRequest();
 		$form->write();
 	}
