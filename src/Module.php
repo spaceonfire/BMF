@@ -4,7 +4,8 @@ namespace spaceonfire\BMF;
 
 use Exception;
 
-class Module {
+class Module
+{
 	private $MODULE_ID;
 	private $MODULE_VERSION;
 	private $MODULE_VERSION_DATE;
@@ -18,7 +19,8 @@ class Module {
 	 * @param array $options array of module properties
 	 * @throws Exception
 	 */
-	public function __construct(array $options = []) {
+	public function __construct(array $options = [])
+	{
 		if (!$options['MODULE_ID']) {
 			throw new Exception('MODULE_ID is required');
 		}
@@ -36,7 +38,8 @@ class Module {
 	 * Get module id
 	 * @return string MODULE_ID property
 	 */
-	public function getId() {
+	public function getId(): string
+	{
 		return $this->MODULE_ID;
 	}
 
@@ -44,7 +47,8 @@ class Module {
 	 * Get module version
 	 * @return string
 	 */
-	public function getVersion() {
+	public function getVersion(): string
+	{
 		return $this->MODULE_VERSION;
 	}
 
@@ -52,7 +56,8 @@ class Module {
 	 * Set module version
 	 * @param string $MODULE_VERSION
 	 */
-	public function setVersion($MODULE_VERSION) {
+	public function setVersion($MODULE_VERSION): void
+	{
 		$this->MODULE_VERSION = $MODULE_VERSION;
 	}
 
@@ -60,7 +65,8 @@ class Module {
 	 * Get module version date
 	 * @return string MODULE_VERSION_DATE property
 	 */
-	public function getVersionDate() {
+	public function getVersionDate(): string
+	{
 		return $this->MODULE_VERSION_DATE;
 	}
 
@@ -68,11 +74,16 @@ class Module {
 	 * Set module version date
 	 * @param string $MODULE_VERSION_DATE
 	 */
-	public function setVersionDate($MODULE_VERSION_DATE) {
+	public function setVersionDate($MODULE_VERSION_DATE): void
+	{
 		$this->MODULE_VERSION_DATE = $MODULE_VERSION_DATE;
 	}
 
-	public function showOptionsForm() {
+	/**
+	 * Output admin options form
+	 */
+	public function showOptionsForm(): void
+	{
 		$form = new Options\Form($this->options, $this->ADMIN_FORM_ID);
 		$form->handleRequest();
 		$form->write();

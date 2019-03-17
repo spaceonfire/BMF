@@ -4,20 +4,23 @@ namespace spaceonfire\BMF;
 
 use CEventLog;
 
-class Logger {
-	private $moduleId = null;
-	private $auditTypeId = null;
-	private $itemId = null;
+class Logger
+{
+	private $moduleId;
+	private $auditTypeId;
+	private $itemId;
 
-	public function __construct($moduleId) {
+	public function __construct($moduleId)
+	{
 		$this->moduleId = $moduleId;
 	}
 
 	/**
 	 * Get custom audit type id
-	 * @return string | null
+	 * @return string|null
 	 */
-	public function getAuditTypeId() {
+	public function getAuditTypeId(): ?string
+	{
 		return $this->auditTypeId;
 	}
 
@@ -25,15 +28,17 @@ class Logger {
 	 * Set custom audit type id
 	 * @param string $auditTypeId
 	 */
-	public function setAuditTypeId($auditTypeId) {
+	public function setAuditTypeId($auditTypeId): void
+	{
 		$this->auditTypeId = $auditTypeId;
 	}
 
 	/**
 	 * Get predefined item id
-	 * @return string | null
+	 * @return string|null
 	 */
-	public function getItemId() {
+	public function getItemId(): ?string
+	{
 		return $this->itemId;
 	}
 
@@ -41,15 +46,17 @@ class Logger {
 	 * Set item id
 	 * @param string $itemId
 	 */
-	public function setItemId($itemId) {
+	public function setItemId($itemId): void
+	{
 		$this->itemId = $itemId;
 	}
 
 	/**
 	 * Add message to event log
-	 * @param string | array $message log message string or array with fields to pass into CEventLog::Add
+	 * @param string|array $message log message string or array with fields to pass into CEventLog::Add
 	 */
-	public function log($message) {
+	public function log($message): void
+	{
 		$defaults = [
 			'SEVERITY' => 'INFO',
 			'AUDIT_TYPE_ID' => $this->auditTypeId,
@@ -61,36 +68,62 @@ class Logger {
 		CEventLog::Add(array_merge($defaults, $message, ['MODULE_ID' => $this->moduleId]));
 	}
 
-	public function info($message) {
+	/**
+	 * Add message to log with INFO severity
+	 * @see Logger::log()
+	 * @param string|array $message same as $message param for Logger::log()
+	 */
+	public function info($message): void
+	{
 		$this->log($message);
 	}
 
-	public function debug($message) {
-		$this->log([
-			'SEVERITY' => 'DEBUG',
-			'DESCRIPTION' => $message,
-		]);
+	/**
+	 * Add message to log with DEBUG severity
+	 * @see Logger::log()
+	 * @param string|array $message same as $message param for Logger::log()
+	 */
+	public function debug($message): void
+	{
+		$message = $this->logMessToArray($message);
+		$this->log(array_merge(['SEVERITY' => 'DEBUG'], $message));
 	}
 
-	public function warning($message) {
+	/**
+	 * Add message to log with WARNING severity
+	 * @see Logger::log()
+	 * @param string|array $message same as $message param for Logger::log()
+	 */
+	public function warning($message): void
+	{
 		$message = $this->logMessToArray($message);
-
 		$this->log(array_merge(['SEVERITY' => 'WARNING'], $message));
 	}
 
-	public function error($message) {
+	/**
+	 * Add message to log with ERROR severity
+	 * @see Logger::log()
+	 * @param string|array $message same as $message param for Logger::log()
+	 */
+	public function error($message): void
+	{
 		$message = $this->logMessToArray($message);
-
 		$this->log(array_merge(['SEVERITY' => 'ERROR'], $message));
 	}
 
-	public function security($message) {
+	/**
+	 * Add message to log with SECURITY severity
+	 * @see Logger::log()
+	 * @param string|array $message same as $message param for Logger::log()
+	 */
+	public function security($message): void
+	{
 		$message = $this->logMessToArray($message);
-
 		$this->log(array_merge(['SEVERITY' => 'SECURITY'], $message));
 	}
 
-	private function logMessToArray($mess) {
+	private function logMessToArray($mess): array
+	{
 		if (!is_array($mess)) {
 			$mess = [
 				'DESCRIPTION' => $mess,
