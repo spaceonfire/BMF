@@ -12,6 +12,7 @@ trait ModuleInstaller
 {
 	protected $DEV_LINKS = [];
 	protected $INSTALL_PATHS = [];
+	protected $IGNORE_PATTERNS = [];
 	protected $INSTALLER_DIR = __DIR__;
 
 	/**
@@ -66,8 +67,13 @@ trait ModuleInstaller
 							throw new \RuntimeException(sprintf('Directory "%s" was not created', $dir));
 						}
 					}
-					if (!copy($from, $to)) {
-						throw new FileOpenException($to);
+
+					if (is_link($from)) {
+						symlink(readlink($from), $to);
+					} else {
+						if (!copy($from, $to)) {
+							throw new FileOpenException($to);
+						}
 					}
 				}
 			}
@@ -136,10 +142,23 @@ trait ModuleInstaller
 		);
 
 		$result = [];
+		/**
+		 * @var string $filePath
+		 * @var \SplFileInfo $item
+		 */
 		foreach ($iter as $filePath => $item) {
-			if ($item->isFile()) {
-				$result[$filePath] = str_replace($dirFromDocRoot, '', $filePath);
+			if (!$item->isFile() && !$item->isLink()) {
+				continue;
 			}
+
+			// Skip ignored files
+			foreach ($this->IGNORE_PATTERNS as $pattern) {
+				if (preg_match($pattern, $filePath) > 0) {
+					continue 2;
+				}
+			}
+
+			$result[$filePath] = str_replace($dirFromDocRoot, '', $filePath);
 		}
 
 		uasort($result, function ($a, $b) {
