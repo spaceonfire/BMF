@@ -2,6 +2,7 @@
 
 namespace spaceonfire\BMF;
 
+use Bitrix\Main;
 use Bitrix\Main\IO\FileDeleteException;
 use Bitrix\Main\IO\FileOpenException;
 use Bitrix\Main\ModuleManager;
@@ -43,7 +44,8 @@ trait ModuleInstaller
 	 */
 	public function isDevelopmentMode(): bool
 	{
-		return $_ENV['ENVIRONMENT'] === 'development';
+		$exceptionHandling = Main\Config\Configuration::getValue('exception_handling') ?? [];
+		return $exceptionHandling['debug'] ?? false;
 	}
 
 	/**
@@ -86,7 +88,9 @@ trait ModuleInstaller
 					}
 				}
 
-				if (!file_exists($link)) {
+				if (is_link($target)) {
+					symlink(readlink($target), $link);
+				} else if (!file_exists($link)) {
 					symlink($this->findRelativePath($link, $target), $link);
 				}
 			}
