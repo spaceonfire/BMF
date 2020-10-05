@@ -137,7 +137,7 @@ class Form
 						<?php
 						switch ($opt['type']) {
 							case 'html':
-								if ($opt['label'] !== '') {
+								if (!empty($opt['label'])) {
 									?>
 									<td width="30%" style="vertical-align: top; line-height: 25px;">
 										<label for="<?= $opt_name ?>">
