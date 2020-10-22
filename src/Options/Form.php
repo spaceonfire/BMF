@@ -157,8 +157,8 @@ class Form
 								} else if (file_exists($opt['path'])) {
 									/** @noinspection PhpIncludeInspection */
 									include $opt['path'];
-								} else if (!empty($opt['fn']) && !is_string($opt['fn']) && is_callable($opt['fn'])) {
-									$opt['fn']();
+								} else if (isset($opt['render']) && is_callable($opt['render'])) {
+									echo $opt['render']();
 								}
 								?>
 								</td>
