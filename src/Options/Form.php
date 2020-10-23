@@ -137,7 +137,7 @@ class Form
 						<?php
 						switch ($opt['type']) {
 							case 'html':
-								if ($opt['label'] !== '') {
+								if (!empty($opt['label'])) {
 									?>
 									<td width="30%" style="vertical-align: top; line-height: 25px;">
 										<label for="<?= $opt_name ?>">
@@ -157,6 +157,8 @@ class Form
 								} else if (file_exists($opt['path'])) {
 									/** @noinspection PhpIncludeInspection */
 									include $opt['path'];
+								} else if (isset($opt['render']) && is_callable($opt['render'])) {
+									echo $opt['render']();
 								}
 								?>
 								</td>
